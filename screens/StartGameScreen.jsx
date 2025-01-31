@@ -3,25 +3,21 @@ import PrimaryButton from "../components/PrimaryButton";
 import { useState } from "react";
 
 const StartGameScreen = () => {
-  const [enteredNumber, setEnteredNumber] = useState(0);
-
-  const handleInput = (number) => {
-    if (number < 1 || number > 99) {
-      return Alert.alert("Please enter number from 1 to 99");
-    }
-    setEnteredNumber(number);
-  };
-
   return (
     <View style={styles.inputContainer}>
       <TextInput
         style={styles.numberInput}
-        value={enteredNumber}
-        onChangeText={handleInput}
-        keyboardType="numeric"
+        maxLength={2}
+        keyboardType="number-pad"
       />
-      <PrimaryButton>Reset</PrimaryButton>
-      <PrimaryButton>Confirm</PrimaryButton>
+      <View style={styles.buttonsContainer}>
+        <View style={styles.buttonContainer}>
+          <PrimaryButton>Reset</PrimaryButton>
+        </View>
+        <View style={styles.buttonContainer}>
+          <PrimaryButton>Confirm</PrimaryButton>
+        </View>
+      </View>
     </View>
   );
 };
@@ -30,10 +26,12 @@ export default StartGameScreen;
 
 const styles = StyleSheet.create({
   inputContainer: {
+    justifyContent: "center",
+    alignItems: "center",
     marginTop: 100,
     marginHorizontal: 24,
     padding: 16,
-    backgroundColor: "#72063c",
+    backgroundColor: "#3b021f",
     borderRadius: 8,
     elevation: 4,
     shadowColor: "black",
@@ -51,5 +49,12 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     fontWeight: "bold",
     textAlign: "center",
+    paddingVertical: 0,
+  },
+  buttonsContainer: {
+    flexDirection: "row",
+  },
+  buttonContainer: {
+    flex: 1,
   },
 });
