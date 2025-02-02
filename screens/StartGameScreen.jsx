@@ -3,19 +3,42 @@ import PrimaryButton from "../components/PrimaryButton";
 import { useState } from "react";
 
 const StartGameScreen = () => {
+  const [enteredNumber, setEnteredNumber] = useState("");
+
+  const handleInput = (value) => {
+    setEnteredNumber(value);
+  };
+
+  const handleConfirmInput = () => {
+    if (
+      Number(enteredNumber) < 1 ||
+      Number(enteredNumber) > 99 ||
+      (enteredNumber.length > 1 && enteredNumber[0] === "0")
+    ) {
+      return Alert.alert("Please enter a valid number");
+    }
+    handleResetInput();
+  };
+
+  const handleResetInput = () => {
+    setEnteredNumber("");
+  };
+
   return (
     <View style={styles.inputContainer}>
       <TextInput
         style={styles.numberInput}
         maxLength={2}
         keyboardType="number-pad"
+        onChangeText={handleInput}
+        value={enteredNumber}
       />
       <View style={styles.buttonsContainer}>
         <View style={styles.buttonContainer}>
-          <PrimaryButton>Reset</PrimaryButton>
+          <PrimaryButton onPress={handleResetInput}>Reset</PrimaryButton>
         </View>
         <View style={styles.buttonContainer}>
-          <PrimaryButton>Confirm</PrimaryButton>
+          <PrimaryButton onPress={handleConfirmInput}>Confirm</PrimaryButton>
         </View>
       </View>
     </View>
