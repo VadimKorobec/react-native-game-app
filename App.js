@@ -7,18 +7,29 @@ import { StatusBar } from "expo-status-bar";
 import GameScreen from "./screens/GameScreen";
 import StartGameScreen from "./screens/StartGameScreen";
 import Colors from "./constants/colors";
+import GameOverScreen from "./screens/GameOverScreen";
 
 export default function App() {
   const [userNumber, setUserNumber] = useState(null);
-  const [showGameScreen, setShowGameScreen] = useState(false);
-
-  const handleToggleGameScreen = () => {
-    setShowGameScreen((prevState) => !prevState);
-  };
+  const [gameIsOver, setGameIsOver] = useState(false);
 
   const handleSelectNumber = (number) => {
     setUserNumber(number);
   };
+
+  const handleGameOver = () => {
+    setGameIsOver(prevState => !prevState )
+  }
+
+  let screen = <StartGameScreen onSelectNumber={handleSelectNumber} />;
+
+  if (userNumber) {
+    screen = <GameScreen userNumber={userNumber} onGameOver={handleGameOver}  />;
+  }
+
+  if (gameIsOver) {
+    screen = <GameOverScreen/>
+  }
 
   return (
     <LinearGradient
@@ -32,18 +43,7 @@ export default function App() {
         style={styles.rootScreen}
         imageStyle={styles.backgroundImage}
       >
-        {showGameScreen ? (
-          <SafeAreaView style={styles.rootScreen}>
-            <GameScreen userNumber={userNumber} />
-          </SafeAreaView>
-        ) : (
-          <SafeAreaView style={styles.rootScreen}>
-            <StartGameScreen
-              onToggle={handleToggleGameScreen}
-              onSelectNumber={handleSelectNumber}
-            />
-          </SafeAreaView>
-        )}
+        <SafeAreaView style={styles.rootScreen}>{screen}</SafeAreaView>
       </ImageBackground>
     </LinearGradient>
   );
